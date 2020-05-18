@@ -21,16 +21,20 @@ const handleClick = (element) => {
   // this prevents an X being changed to an O
   if(!document.getElementById(element.id).innerHTML){
     addMarker(element.id)
-    updateBoard(element.id)
-    checkForWin()
+    
   }
 }
 
 const addMarker = (id) => {
+  const row = parseInt(id.charAt(0))
+  const column = parseInt(id.charAt(2)) 
+  board[row][column] = currentMarker
   console.log(`We'll place a mark on square: ${id}`)
+  
   // @TODO, Mix & Match. 
   // You will need the following pieces:
-  
+  document.getElementById(id).innerHTML = currentMarker;
+  checkForWin();
   // = currentMarker
   // .getElementById(id)
   // document
@@ -40,18 +44,23 @@ const addMarker = (id) => {
   // to add an X or O to the board to the DOM so it can be scene on the screen.
 }
 
-// passes the element's id attribute from HTML to be used
-const updateBoard = (id) => {
-  // parses the id string into a number then captures the first and last part the newly create number as row & column
-  const row = parseInt(id.charAt(0))
-  const column = parseInt(id.charAt(2)) 
+// // passes the element's id attribute from HTML to be used
+// const updateBoard = (id) => {
+//   // parses the id string into a number then captures the first and last part the newly create number as row & column
+//   const row = parseInt(id.charAt(0))
+//   const column = parseInt(id.charAt(2)) 
+//   board[row][column] = currentMarker
 
-  console.log(`you clicked the sq at ${row} and ${column}`)
-  console.log(board)
+//   console.log(`you clicked the sq at ${row} and ${column}`)
+//   console.log(board)
 
-  // @TODO, Your code here: use the above information to change the board variable(array of arrays)
-  // HINT: in your browser open up the dev tools -> console
-}
+//   // @TODO, Your code here: use the above information to change the board variable(array of arrays)
+//   // HINT: in your browser open up the dev tools -> console
+//   console.log(`*** The current marker is:  ${currentMarker}. ***`)
+//   console.log(`Therefore, a  "${currentMarker}"  should be placed in the square with the id:  ${id}`)
+  
+
+// }
 
 const checkForWin = () => {
   // calls each checkForWin possibility and if any are true gives a page alert,
@@ -60,25 +69,51 @@ const checkForWin = () => {
     window.alert(`Player ${currentMarker} won!`)
   } else {
     // if no win, change the marker from X to O, or O to X for the next player.
-    changeMarker()
+    changeMarker();
   }
 }
 
 const horizontalWin = () => {
   // @TODO, Your code here: to check for horizontal wins
+  if((board[0][0] == "X" && board[0][1] == "X" && board[0][2] == "X") || (board[0][0] == "O" && board[0][1] == "O" && board[0][2] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  } if ((board[1][0] == "X" && board[1][1] == "X" && board[1][2] == "X") || (board[1][0] == "O" && board[1][1] == "O" && board[1][2] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  } if ((board[2][0] == "X" && board[2][1] == "X" && board[2][2] == "X") || (board[2][0] == "O" && board[2][1] == "O" && board[2][2] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  }
 }
 
 const verticalWin = () => {
   // @TODO, Your code here: to check for vertical wins
+  if((board[0][0] == "X" && board[1][0] == "X" && board[2][0] == "X") || (board[0][0] == "O" && board[1][0] == "O" && board[2][0] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  }
+  if((board[0][1] == "X" && board[1][1] == "X" && board[2][1] == "X") || (board[0][1] == "O" && board[1][1] == "O" && board[2][1] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  }
+  if((board[0][2] == "X" && board[1][2] == "X" && board[2][2] == "X") || (board[0][2] == "O" && board[1][2] == "O" && board[2][2] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  }
 }
 
 const diagonalWin = () => {
   // @TODO, Your code here: to check for diagonal wins
+  if((board[0][0] == "X" && board[1][1] == "X" && board[2][2] == "X") || (board[0][2] == "O" && board[1][2] == "O" && board[2][2] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  } 
+  if((board[0][2] == "X" && board[1][1] == "X" && board[2][0] == "X") || (board[0][2] == "O" && board[1][1] == "O" && board[2][0] == "O")){
+    (window.alert(`Player ${currentMarker} won!`));
+  }
 }
 
 const changeMarker = () => {
   // ternary operator: if it's an X make it an O, if O make it an X
-  currentMarker = currentMarker === "X" ? "O" : "X"
+  if(currentMarker === "X"){
+    currentMarker = "O"
+  } else {
+    currentMarker = "X"
+  }
 }
 
 const resetBoard = () => {
@@ -86,16 +121,24 @@ const resetBoard = () => {
   console.log("the board was cleared!")
 
   // collects all of the "td"s into an HTML Collection: https://www.w3schools.com/jsref/dom_obj_htmlcollection.asp  
-  const squares = document.getElementsByTagName("TD")
+  const squares = document.getElementsByTagName("td")
   
   // loops over the HTML Collections and clears out the Xs and Os
-  for (i=0; i<squares.length; i++) {
-    console.log(squares[i])
+  for (i=0; i < squares.length; i++) {
+    console.log(squares[i].id)
     squares[i].innerHTML = null
   }
   
   // @TODO, Your code here: make sure to reset the array of arrays to empty for a new game
-}
+
+
+board = [
+  ['','',''],
+  ['','',''],
+  ['','','']
+]
+  currentMarker = 'X'
+};
 
 // **BONUSES**
 
